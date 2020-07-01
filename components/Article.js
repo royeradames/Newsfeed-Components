@@ -85,6 +85,22 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Archive Diary Documentation',
+    date: 'Jan 1st, 2020',
+    firstParagraph: `First step, hodor HODOR! Hodor hodor - hodor, hodor. Hodor hodor... Hodor hodor hodor; hodor hodor. Hodor hodor hodor, hodor, hodor
+          hodor. Hodor, hodor. Hodor. Hodor, hodor - hodor... Hodor hodor hodor; hodor HODOR hodor, hodor hodor?! Hodor hodor, hodor.
+          Hodor hodor hodor hodor hodor! Hodor hodor - HODOR hodor, hodor hodor hodor hodor hodor; hodor hodor? `,
+
+    secondParagraph: `Hodor is the second step. Hodor. Hodor. Hodor, hodor, hodor. Hodor hodor, hodor. Hodor hodor, hodor, hodor hodor. Hodor! Hodor hodor, hodor;
+          hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor - HODOR hodor, hodor hodor hodor! Hodor, hodor. Hodor. Hodor, HODOR
+          hodor, hodor hodor, hodor, hodor hodor. Hodor hodor - hodor - hodor... Hodor hodor hodor hodor hodor hodor hodor?! Hodor
+          hodor - hodor hodor hodor. Hodor. Hodor hodor... Hodor hodor hodor hodor hodor? `,
+
+    thirdParagraph: `Hodor hodor - hodor... and Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
+          Hodor hodor, HODOR hodor, Lambda rocks, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
+          Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
   }
 ];
 
@@ -111,3 +127,65 @@ const data = [
 
   Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
 */
+
+function articleMaker(articleData){
+  //initialize variables
+  const titleArticle = articleData.title;
+  const dateArticle = articleData.date;
+  const paragraphsArticles = [];
+
+  //populate paragraphsArticles
+  paragraphsArticles.push(articleData.firstParagraph);
+  paragraphsArticles.push(articleData.secondParagraph);
+  paragraphsArticles.push(articleData.thirdParagraph);
+
+  //build the div
+  let article = document.createElement('div');
+  article.classList.add('article');
+
+  //build the h2
+  let articleH2 = document.createElement('h2');
+  articleH2.textContent = titleArticle;
+
+  //build the p date
+  let articleP = document.createElement('p');
+  articleP.classList.add('date');
+  articleP.textContent = dateArticle;
+
+  //build the paragraphs
+  const paragraphs = [];
+  for(let i = 0; i < paragraphsArticles.length; i++){
+    paragraphs.push(document.createElement('p'));
+    paragraphs[i].textContent = paragraphsArticles[i];
+  }
+
+    //build the span
+  let span = document.createElement('span');
+  span.classList.add('expandButton');
+  span.textContent = '+';
+    //toggle class article open
+  span.addEventListener('click', (event) =>{
+  article.classList.toggle('article-open');
+  })
+
+  // add all tags into the parent div
+  article.appendChild(articleH2, articleP)
+  paragraphs.forEach( item => {
+    article.appendChild(item)
+  })
+  article.appendChild(span)
+
+  //return all articles data
+  return article;
+}
+
+//save all article data on new articles
+const newArticles = data.map(item => {
+  return articleMaker(item)
+})
+
+//append data to DOM
+const articles = document.querySelector('.articles');
+newArticles.forEach(item =>{
+  articles.appendChild(item);
+})
